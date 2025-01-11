@@ -1,0 +1,36 @@
+{% extends "menu.html" %}
+{% block pagename %}<h1>Игры</h1>{% endblock %}
+{% block menu %}{{ block.super }}{% endblock %}
+{% block content %}
+    <hr>
+    {% for new in news %}
+        <h2>{{ new.title }}</h2>
+        <br>
+        {{ new.content }}
+        <br>
+        <small style="float: right; margin-right: 20px;">{{ new.date }}</small>
+        <hr>
+    {% endfor %}
+
+    <div class="pagination">
+        <span class="step-links">
+            <a {% if not news.has_previous %} class="disabled" {% else %} href="?page=1"{% endif %}> &laquo; Первая</a>
+            <a {% if not news.has_previous %} class="disabled" {% else %} href="?page={{ news.previous_page_number }}"{% endif %}>Предыдущая</a>
+
+
+            {% if news %}
+                <span class="current">
+                    Страница {{ news.number }} из {{ news.paginator.num_pages }}.
+                </span>
+            {% else %}
+                <span class="current">
+                    Новостей пока нет...
+                </span>
+            {% endif %}
+
+            <a {% if not news.has_next %} class="disabled" {% else %} href="?page={{ news.next_page_number }}"{% endif %}>Следующая</a>
+            <a {% if not news.has_next %} class="disabled" {% else %} href="?page={{ news.paginator.num_pages }}"{% endif %}>Последняя &raquo;</a>
+
+        </span>
+    </div>
+{% endblock %}

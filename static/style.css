@@ -4,3 +4,8 @@ body {
 h1 {
     text-align: center;
 }
+
+a.disabled {
+    text-decoration: none;
+    cursor: default;
+}

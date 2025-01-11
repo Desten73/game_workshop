@@ -1,7 +1,8 @@
 from django.shortcuts import render
 from django.shortcuts import HttpResponse
+from django.core.paginator import Paginator
 from .forms import RegistrationForm
-from .models import Game, Buyer
+from .models import Game, Buyer, News
 
 
 # Create your views here.
@@ -51,7 +52,7 @@ def registration_page_django(request):
     else:
         form = RegistrationForm()
     info["form"] = form
-    return render(request, "registration_page.html", info)
+    return render(request, "registration_page_django.html", info)
 
 
 def test(request):
@@ -74,3 +75,11 @@ def games_page(request):
 
 def cart_page(request):
     return render(request, "cart.html")
+
+
+def paginator_news(request):
+    news = News.objects.all().order_by("-date")
+    paginator = Paginator(news, 3)
+    page_number = request.GET.get("page")
+    news_obj = paginator.get_page(page_number)
+    return render(request, "news.html", {"news": news_obj})
